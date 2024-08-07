@@ -1,0 +1,62 @@
+﻿@model MyFriends.Models.Friend
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@("פרטי חבר:" + " " + Model.FullName)</h1>
+
+<div>
+    <h4>@Model.FirstName</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailAdress)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmailAdress)
+        </dd>
+
+        @foreach(Image img in Model.Images)
+            {
+                if(img.MyImages != null)
+                {
+                    <dd class="col-sm-10">
+                        <img src="data:image; base64, @System.Convert.ToBase64String(img.MyImages)" width="250"hight="250"  />
+                    </dd>
+                }
+            }
+        
+    </dl>
+</div>
+<hr />
+<button onclick="addImage()"> הוסף תמונה לחבר</button>
+<div id="addImageId" style=" display:none"> 
+<div class="rew">
+    <div class=" col-md-4">
+        <form asp-action="AddNewImage" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input asp-for="Id"hidden="hidden" />
+
+            <div class="form-group">
+                <label asp-for="setImage" class="control-label"></label>
+                <input asp-for="setImage" class="form-control" />
+                <span asp-validation-for="setImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="הוסף" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>
